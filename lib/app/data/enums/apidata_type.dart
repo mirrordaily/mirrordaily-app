@@ -1,0 +1,36 @@
+import 'package:json_annotation/json_annotation.dart';
+
+enum ApiDataType {
+  @JsonValue('unstyled')
+  unStyled,
+  @JsonValue('header-two')
+  headerTwo,
+  @JsonValue('header-three')
+  headerThree,
+  @JsonValue('blockquote')
+  blockQuote,
+  @JsonValue('unordered-list-item')
+  unorderedListItem,
+  @JsonValue('ordered-list-item')
+  orderedListItem,
+  @JsonValue('divider')
+  divider,
+  @JsonValue('video-v2')
+  videoV2,
+  @JsonValue('audio-v2')
+  audioV2,
+  @JsonValue('image')
+  image,
+  @JsonValue('slideshow-v2')
+  slideShowV2,
+  @JsonValue('infobox')
+  infoBox,
+  @JsonValue('youtube')
+  youtube,
+  @JsonValue('table')
+  table,
+  @JsonValue('embeddedcode')
+  embeddedCode,
+  @JsonValue(null)
+  unKnow
+}

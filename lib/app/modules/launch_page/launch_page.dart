@@ -7,12 +7,10 @@ class LaunchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Launch Page'),
+        title: const Text('Launch page'),
       ),
-      body: const Column(
-        children: [
-          Text('hello Launch'),
-        ],
+      body: Column(
+        children: [],
       ),
     );
   }

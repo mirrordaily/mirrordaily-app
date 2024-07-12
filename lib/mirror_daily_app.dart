@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mirrordaily_app/core/theme/custom_text_style.dart';
 import 'package:mirrordaily_app/main_binding.dart';
 import 'package:mirrordaily_app/routes/pages.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
@@ -10,6 +11,14 @@ class MirrorDailyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData.light().copyWith(
+        textTheme: CustomTextStyle.defaultTextTheme,
+        bottomNavigationBarTheme: BottomNavigationBarTheme.of(context).copyWith(
+          unselectedItemColor: Colors.red,
+          selectedItemColor: Colors.blue,
+          backgroundColor: Colors.red,
+        ),
+      ),
       getPages: Pages.pages,
       initialRoute: Routes.launchPage,
       initialBinding: MainBinding(),
