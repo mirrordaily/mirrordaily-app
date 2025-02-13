@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
 
-class HomeController extends GetxController {
-  final RxInt rxCurrentBottomIndex = 0.obs;
-  final TextEditingController textEditingController = TextEditingController();
+class HomeController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final Rxn<TabController> rxnTabController = Rxn();
+  final RxInt rxSelectedIndex = 0.obs;
 
-  void onBottomNavigationItemClick(int index) {
-    if (index == rxCurrentBottomIndex.value) {
-      return;
-    }
-    rxCurrentBottomIndex.value = index;
-    final targetPage = Routes.bottomNavigationPages[index];
-    Get.toNamed(targetPage, id: Routes.navigationBarKey);
+  @override
+  void onInit() {
+    super.onInit();
+    rxnTabController.value = TabController(length: 2, vsync: this);
+
+    rxnTabController.value?.addListener(() {
+      rxSelectedIndex.value = rxnTabController.value!.index;
+    });
   }
 
-  void goToArticlePage() {
-    Get.toNamed(Routes.articlePage);
+  void onSearchButtonClick() {
+    Get.toNamed(Routes.searchPage);
   }
 }

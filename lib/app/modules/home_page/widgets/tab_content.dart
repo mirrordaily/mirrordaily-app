@@ -13,10 +13,7 @@ class TabContent extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(name),
-        OutlinedButton(
-            onPressed: homeController.goToArticlePage,
-            child: const Text('Article Page')),
+        Text('123312312'),
       ],
     );
   }

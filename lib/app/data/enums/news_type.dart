@@ -1,0 +1,4 @@
+enum NewsType {
+  realTime,
+  popular,
+}

@@ -1,6 +1,5 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 class AudioWidgetController extends GetxController {
   String? audioPath;
 
@@ -9,18 +8,19 @@ class AudioWidgetController extends GetxController {
   AudioPlayer audioPlayer = AudioPlayer();
 
   final Rx<PlayerState> rxAudioPlayerState =
-      Rx<PlayerState>(PlayerState.STOPPED);
+      Rx<PlayerState>(PlayerState.stopped);
   final Rxn<Duration> rxnAudioDuration = Rxn();
   final Rxn<Duration> rxnAudioPosition = Rxn();
 
-  PlayerState audioPlayStateBuffer = PlayerState.STOPPED;
+  PlayerState audioPlayStateBuffer = PlayerState.stopped;
 
   @override
   void onInit() {
     super.onInit();
     if (audioPath != null) {
       audioPlayer = AudioPlayer();
-      audioPlayer.setUrl(audioPath!);
+
+      audioPlayer.setSourceUrl(audioPath!);
     }
 
     audioPlayer.onPlayerStateChanged.listen((state) {
@@ -30,17 +30,18 @@ class AudioWidgetController extends GetxController {
       rxnAudioDuration.value = newDuration;
     });
 
-    audioPlayer.onAudioPositionChanged.listen((newPosition) {
+
+    audioPlayer.onPositionChanged.listen((newPosition) {
       rxnAudioPosition.value = newPosition;
     });
   }
 
   void onPlayPauseButtonClick() {
-    if (audioPlayer.state == PlayerState.PLAYING) {
+    if (audioPlayer.state == PlayerState.playing) {
       audioPlayer.pause();
     }
-    if (audioPlayer.state == PlayerState.PAUSED ||
-        audioPlayer.state == PlayerState.STOPPED) {
+    if (audioPlayer.state == PlayerState.paused ||
+        audioPlayer.state == PlayerState.stopped) {
       audioPlayer.resume();
     }
   }
@@ -52,13 +53,13 @@ class AudioWidgetController extends GetxController {
   void slideBarValueChange(double value) async {
     final newPosition = Duration(seconds: value.toInt());
     await audioPlayer.seek(newPosition);
-    if (audioPlayer.state == PlayerState.PLAYING) {
+    if (audioPlayer.state == PlayerState.playing) {
       audioPlayer.pause();
     }
   }
 
   void slideBarValueChangeEnd(value) async {
-    if (audioPlayStateBuffer == PlayerState.PLAYING) {
+    if (audioPlayStateBuffer == PlayerState.playing) {
       await audioPlayer.resume();
     } else {
       await audioPlayer.pause();

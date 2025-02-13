@@ -11,6 +11,17 @@ class Routes {
   static const shortVideoPage = '/homePage/shortVideo';
   static const classificationPage = '/homePage/classification';
   static const settingPage = '/homePage/setting';
+  static const sectionPage = '/sectionPage';
 
-  static const bottomNavigationPages = [newsPage, shortVideoPage, classificationPage,settingPage];
+  static const postShortVideoResultPage = '/postShortVideoResultPage';
+  static const postShortVideoPage = '/postShortVideoPage';
+  static const postShortVideoUserCheckPage = '/postShortVideoUserCheckPage';
+  static const topicListPage = '/topicListPage';
+
+  static const bottomNavigationPages = [
+    newsPage,
+    shortVideoPage,
+    classificationPage,
+    settingPage
+  ];
 }

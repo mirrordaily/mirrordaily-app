@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
+
 import 'package:mirrordaily_app/configs/environment.dart';
 
 class GraphQLProvider extends GetxService {

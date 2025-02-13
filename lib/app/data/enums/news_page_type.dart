@@ -1,0 +1,4 @@
+enum NewsPageType {
+  latest,
+  topic,
+}

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_embedded_webview/flutter_embedded_webview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -209,10 +208,11 @@ class DraftJsWidgetFactory {
         if (width != null && height != null) {
           aspectRatio = height / width;
         }
-        return EmbeddedCodeWidget(
-          embeddedCode: apiData.contentMap?['embeddedCode'],
-          aspectRatio: aspectRatio,
-        );
+        return SizedBox();
+        // return EmbeddedCodeWidget(
+        //   embeddedCode: apiData.contentMap?['embeddedCode'],
+        //   aspectRatio: aspectRatio,
+        // );
       case ApiDataType.youtube:
         return YoutubeWidget(videoUrl: apiData.contentMap?['youtubeId']);
       case ApiDataType.videoV2:

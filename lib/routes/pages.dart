@@ -16,10 +16,20 @@ import 'package:mirrordaily_app/app/modules/home_page/widgets/short_page/short_v
 import 'package:mirrordaily_app/app/modules/home_page/widgets/short_page/short_video_page.dart';
 import 'package:mirrordaily_app/app/modules/launch_page/launch_binding.dart';
 import 'package:mirrordaily_app/app/modules/launch_page/launch_page.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_binding.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_page.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_video_result_page/post_short_video_result_binding.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_video_result_page/post_short_video_result_page.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_video_user_check_page/post_short_video_user_check_binding.dart';
+import 'package:mirrordaily_app/app/modules/post_short_video_page/post_short_video_user_check_page/post_short_video_user_check_page.dart';
 import 'package:mirrordaily_app/app/modules/search_page/search_binding.dart';
 import 'package:mirrordaily_app/app/modules/search_page/search_page.dart';
+import 'package:mirrordaily_app/app/modules/section_page/section_page.dart';
+import 'package:mirrordaily_app/app/modules/section_page/section_page_binding.dart';
 import 'package:mirrordaily_app/app/modules/spill_the_tea_page/spill_the_tea_binding.dart';
 import 'package:mirrordaily_app/app/modules/spill_the_tea_page/spill_the_tea_page.dart';
+import 'package:mirrordaily_app/app/modules/topic_list_page/topic_list_binding.dart';
+import 'package:mirrordaily_app/app/modules/topic_list_page/topic_list_page.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
 
 class Pages {
@@ -47,7 +57,27 @@ class Pages {
     GetPage(
         name: Routes.articlePage,
         page: () => const ArticlePage(),
-        binding: ArticleBinding())
+        binding: ArticleBinding()),
+    GetPage(
+        name: Routes.postShortVideoResultPage,
+        page: () => const PostShortVideoResultPage(),
+        binding: PostShortVideoResultBinding()),
+    GetPage(
+        name: Routes.postShortVideoPage,
+        page: () => const PostShortVideoPage(),
+        binding: PostShortVideoBinding()),
+    GetPage(
+        name: Routes.postShortVideoUserCheckPage,
+        page: () => const PostShortVideoUserCheckPage(),
+        binding: PostShortVideoUserCheckBinding()),
+    GetPage(
+        name: Routes.topicListPage,
+        page: () => const TopicListPage(),
+        binding: TopicListBinding()),
+    GetPage(
+        name: Routes.sectionPage,
+        page: () => const SectionPage(),
+        binding: SectionPageBinding())
   ];
 
   static Route? onGenerateRoute(RouteSettings settings) {

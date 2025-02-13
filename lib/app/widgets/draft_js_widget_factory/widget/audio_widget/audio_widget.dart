@@ -29,7 +29,7 @@ class AudioWidget extends StatelessWidget {
             child: Obx(() {
               final audioPlayState = controller.rxAudioPlayerState.value;
               return SvgPicture.asset(
-                audioPlayState == PlayerState.PLAYING
+                audioPlayState == PlayerState.playing
                     ? ImagePath.audioWidgetPauseIcon
                     : ImagePath.audioWidgetPlayIcon,
                 width: 64,
