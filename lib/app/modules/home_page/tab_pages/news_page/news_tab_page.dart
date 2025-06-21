@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/enums/choice_type.dart';
+import 'package:mirrordaily_app/app/data/enums/city.dart';
 import 'package:mirrordaily_app/app/data/enums/news_page_type.dart';
 import 'package:mirrordaily_app/app/data/enums/news_type.dart';
+import 'package:mirrordaily_app/app/data/models/topic_preview.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/news_tab_controller.dart';
-import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/article_list_item.dart';
+import 'package:mirrordaily_app/app/widgets/article_list_item.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/editor_choice_widget/editor_choice_widget.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/live_stream_widget.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/tab_content/latest_tab_content.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/tab_content/topic_tab_content/topic_tab_content.dart';
+import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/weather_widget.dart';
 import 'package:mirrordaily_app/app/widgets/custom_outlined_button.dart';
 import 'package:mirrordaily_app/app/widgets/news_marquee_widget/news_marquee_widget.dart';
 import 'package:mirrordaily_app/core/theme/custom_color_theme.dart';
@@ -22,6 +25,20 @@ import '../../../../data/models/article.dart';
 
 class NewsTabPage extends GetView<NewsTabController> {
   const NewsTabPage({super.key});
+
+  Widget renderTopicListItem({required TopicPreview topicPreview}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      child: InkWell(
+        onTap: () {},
+        child: Text(
+          topicPreview.name ?? StringDefault.nullString,
+          style: CustomTextStyle.subtitleSmall
+              .copyWith(fontWeight: FontWeight.w700),
+        ),
+      ),
+    );
+  }
 
   Widget renderSectionListItem({required Section section}) {
     Color? containerColor;
@@ -53,6 +70,22 @@ class NewsTabPage extends GetView<NewsTabController> {
       child: Column(
         children: [
           Obx(() {
+            final topicList = controller.rxTopicTabBarList.value;
+            return SizedBox(
+              height: 35,
+              child: ListView.separated(
+                shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return renderTopicListItem(topicPreview: topicList[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox();
+                  },
+                  itemCount: topicList.length),
+            );
+          }),
+          Obx(() {
             final sectionList = controller.rxSectionList.value;
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -67,12 +100,12 @@ class NewsTabPage extends GetView<NewsTabController> {
           const SizedBox(
             height: 16,
           ),
-          Obx(
-                  (){
-                    final newsPageType= controller.rxNewsPageType.value;
-              return newsPageType ==NewsPageType.latest? const LatestTabContent():const TopicTabContent();
-            }
-          ),
+          Obx(() {
+            final newsPageType = controller.rxNewsPageType.value;
+            return newsPageType == NewsPageType.latest
+                ? const LatestTabContent()
+                : const TopicTabContent();
+          }),
         ],
       ),
     );

@@ -16,13 +16,11 @@ class PostShortVideoResultController extends GetxController {
     if (Get.arguments != null) {
       package = Get.arguments;
       rxPageStatus.value = PageStatus.loading;
-
-
       if (package?.imagePreviewPath != null) {
-        final photoId =
-            await uploadImagePreviewAndGetImageId(package!.imagePreviewPath!);
+        // final photoId =
+        //     await uploadImagePreviewAndGetImageId(package!.imagePreviewPath!);
         final result =
-            await articleGqlProvider.uploadShortVideo(package!, photoId);
+            await articleGqlProvider.uploadShortVideo(package!, 335);
         if (result != null) {
           rxIsUploadSuccessful.value = true;
         }
@@ -37,6 +35,7 @@ class PostShortVideoResultController extends GetxController {
       imagePath,
       contentType: MediaType('image', 'jpeg'), // 根據圖片格式修改
     );
-    return await articleGqlProvider.uploadImageToGraphQL(multipartFile);
+    final result =await articleGqlProvider.uploadImageToGraphQL(multipartFile);
+    return result;
   }
 }

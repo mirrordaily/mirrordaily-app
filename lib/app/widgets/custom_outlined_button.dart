@@ -16,10 +16,11 @@ class CustomOutlinedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      height: 28,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          side: BorderSide(color: CustomColorTheme.primary10, width: 2),
-          padding: const EdgeInsets.all(10),
+          side: BorderSide(color: CustomColorTheme.primary10, width: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           backgroundColor: isSelect == true
               ? CustomColorTheme.primary10
               : Colors.white, // 设置背景颜色

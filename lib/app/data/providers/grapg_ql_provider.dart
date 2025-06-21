@@ -10,11 +10,18 @@ class GraphQLProvider extends GetxService {
   void onInit() {
     super.onInit();
 
-    final HttpLink httpLink = HttpLink(Environment().config.graphqlPath);
+    final HttpLink httpLink = HttpLink(
+      Environment().config.graphqlPath,
+      defaultHeaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Apollo-Operation-Name': 'post' // 設置 Content-Type
+      },
+    );
 
     client = GraphQLClient(
       cache: GraphQLCache(store: InMemoryStore()),
       link: httpLink,
+        queryRequestTimeout:const Duration(minutes: 1)
     );
   }
 
@@ -39,8 +46,9 @@ class GraphQLProvider extends GetxService {
       document: gql(mutation),
       variables: variables ?? {},
     );
-
+    print('mutate start');
     final result = await client.mutate(options);
+    print('mutate finish');
     return result;
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomColorTheme {
   static ColorScheme defaultColorTheme = const ColorScheme.light().copyWith(
-    primary: const Color(0xFF19B7E8),
+    primary: const Color(0xFF674AB1),
     onPrimary: const Color(0xFF3CD1FF),
     primaryContainer: const Color(0xFFDEF7FF),
     onPrimaryContainer: const Color(0xFF0E4F73),
@@ -31,18 +31,18 @@ class CustomColorTheme {
   );
 
   static Color primary100 = const Color(0xFFFFFFFF);
-  static Color primary99 = const Color(0xFFF7FDFF);
-  static Color primary95 = const Color(0xFFEDFBFF);
-  static Color primary90 = const Color(0xFFDEF7FF);
-  static Color primary80 = const Color(0xFFD2F4FF);
-  static Color primary70 = const Color(0xFFB0EDFF);
-  static Color primary60 = const Color(0xFF7CDFFD);
-  static Color primary50 = const Color(0xFF3CD1FF);
-  static Color primary40 = const Color(0xFF19B7E8);
-  static Color primary30 = const Color(0xFF1593BA);
-  static Color primary20 = const Color(0xFF1F668E);
-  static Color primary10 = const Color(0xFF0E4F73);
-  static Color primary0 = const Color(0xFF003857);
+  static Color primary99 = const Color(0xFFFCF6FF);
+  static Color primary95 = const Color(0xFFF5F0F8);
+  static Color primary90 = const Color(0xFFF1E5F8);
+  static Color primary80 = const Color(0xFFDED1E6);
+  static Color primary70 = const Color(0xFFD9C2E6);
+  static Color primary60 = const Color(0xFFBDACE9);
+  static Color primary50 = const Color(0xFFB39FE9);
+  static Color primary40 = const Color(0xFFA48FDE);
+  static Color primary30 = const Color(0xFF977ED9);
+  static Color primary20 = const Color(0xFF896FCC);
+  static Color primary10 = const Color(0xFF674AB1);
+  static Color primary0 = const Color(0xFF3B1E86);
 
   static Color secondary100 = const Color(0xFFFFFFFF);
   static Color secondary99 = const Color(0xFFF4F5F9);

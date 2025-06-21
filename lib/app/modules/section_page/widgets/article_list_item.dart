@@ -46,6 +46,8 @@ class ArticleListItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         article.title ?? StringDefault.nullString,
                         style: Get.textTheme.titleMedium
                             ?.copyWith(color: mainColor),

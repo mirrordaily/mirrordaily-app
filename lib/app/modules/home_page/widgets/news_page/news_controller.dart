@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/providers/article_api_provider.dart';
+import 'package:mirrordaily_app/app/data/providers/section_gql_provider.dart';
 import 'package:mirrordaily_app/app/modules/home_page/widgets/tab_content.dart';
 import 'package:mirrordaily_app/core/values/page_category/home_category.dart';
 
@@ -8,7 +9,7 @@ class NewsController extends GetxController with GetTickerProviderStateMixin {
   final RxList<String> rxCategoryList = RxList();
   TabController? categoryTabController;
   final RxList<Widget> rxTabContentList = RxList();
-  final ArticleApiProvider articleApiProvider = Get.find();
+  final SectionGqlProvider sectionGqlProvider = Get.find();
 
   @override
   void onInit() {
@@ -21,7 +22,7 @@ class NewsController extends GetxController with GetTickerProviderStateMixin {
   }
 
   void test() async {
-    final result =await articleApiProvider.getSectionList();
+    final result = await sectionGqlProvider.getSectionList();
     print(result.length);
   }
 }

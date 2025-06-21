@@ -6,7 +6,6 @@ class ArticleBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => DraftJsWidgetController());
-    Get.put(ArticleController());
-
+    Get.put(ArticleController(Get.arguments), tag: '${Get.arguments}');
   }
 }

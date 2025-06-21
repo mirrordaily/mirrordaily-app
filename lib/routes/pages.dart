@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/modules/article_page/article_binding.dart';
 import 'package:mirrordaily_app/app/modules/article_page/article_page.dart';
+import 'package:mirrordaily_app/app/modules/article_page/external_article_page/external_article_binding.dart';
+import 'package:mirrordaily_app/app/modules/article_page/external_article_page/external_article_page.dart';
 import 'package:mirrordaily_app/app/modules/game_page/game_binding.dart';
 import 'package:mirrordaily_app/app/modules/game_page/game_page.dart';
 import 'package:mirrordaily_app/app/modules/home_page/home_binding.dart';
@@ -28,8 +30,12 @@ import 'package:mirrordaily_app/app/modules/section_page/section_page.dart';
 import 'package:mirrordaily_app/app/modules/section_page/section_page_binding.dart';
 import 'package:mirrordaily_app/app/modules/spill_the_tea_page/spill_the_tea_binding.dart';
 import 'package:mirrordaily_app/app/modules/spill_the_tea_page/spill_the_tea_page.dart';
-import 'package:mirrordaily_app/app/modules/topic_list_page/topic_list_binding.dart';
-import 'package:mirrordaily_app/app/modules/topic_list_page/topic_list_page.dart';
+import 'package:mirrordaily_app/app/modules/tag_page/tag_page.dart';
+import 'package:mirrordaily_app/app/modules/tag_page/tag_page_binding.dart';
+import 'package:mirrordaily_app/app/modules/topic_page/topic_page.dart';
+import 'package:mirrordaily_app/app/modules/topic_page/topic_page_binding.dart';
+import 'package:mirrordaily_app/app/modules/writer_page/writer_page.dart';
+import 'package:mirrordaily_app/app/modules/writer_page/writer_page_binding.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
 
 class Pages {
@@ -56,7 +62,7 @@ class Pages {
         binding: GameBinding()),
     GetPage(
         name: Routes.articlePage,
-        page: () => const ArticlePage(),
+        page: () => ArticlePage(),
         binding: ArticleBinding()),
     GetPage(
         name: Routes.postShortVideoResultPage,
@@ -71,13 +77,26 @@ class Pages {
         page: () => const PostShortVideoUserCheckPage(),
         binding: PostShortVideoUserCheckBinding()),
     GetPage(
-        name: Routes.topicListPage,
-        page: () => const TopicListPage(),
-        binding: TopicListBinding()),
-    GetPage(
         name: Routes.sectionPage,
         page: () => const SectionPage(),
-        binding: SectionPageBinding())
+        binding: SectionPageBinding()),
+    GetPage(
+        name: Routes.topicPage,
+        page: () => const TopicPage(),
+        binding: TopicPageBinding()),
+    GetPage(
+        name: Routes.writerPage,
+        page: () => const WriterPage(),
+        binding: WriterPageBinding()),
+    GetPage(
+        name: Routes.tagPage,
+        page: () => const TagPage(),
+        binding: TagPageBinding()),
+    GetPage(
+      name: Routes.externalArticlePage,
+      page: () => ExternalArticlePage(),
+      binding: ExternalArticleBinding(),
+    )
   ];
 
   static Route? onGenerateRoute(RouteSettings settings) {

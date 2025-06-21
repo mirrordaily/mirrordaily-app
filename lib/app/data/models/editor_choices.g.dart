@@ -13,12 +13,14 @@ EditorChoice _$EditorChoiceFromJson(Map<String, dynamic> json) => EditorChoice(
       heroImage: json['heroImage'] == null
           ? null
           : HeroImage.fromJson(json['heroImage'] as Map<String, dynamic>),
+      id: json['id'] as String?,
     );
 
 Map<String, dynamic> _$EditorChoiceToJson(EditorChoice instance) =>
     <String, dynamic>{
       'choices': instance.choices,
       'heroImage': instance.heroImage,
+      'id': instance.id,
     };
 
 Choices _$ChoicesFromJson(Map<String, dynamic> json) => Choices(

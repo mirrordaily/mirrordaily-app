@@ -1,62 +1,77 @@
-import 'package:get/get.dart';
 import 'package:graphql/client.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:mirrordaily_app/app/data/models/article.dart';
+import 'package:mirrordaily_app/app/data/models/article_preview.dart';
 import 'package:mirrordaily_app/app/data/models/editor_choices.dart';
+import 'package:mirrordaily_app/app/data/models/external_article.dart';
 import 'package:mirrordaily_app/app/data/models/live_stream_link.dart';
 import 'package:mirrordaily_app/app/data/models/post_short_package.dart';
 import 'package:mirrordaily_app/app/data/models/short_article.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:mirrordaily_app/app/data/providers/grapg_ql_provider.dart';
-
+import 'package:mirrordaily_app/app/data/providers/base_gql_provider.dart';
 import 'package:mirrordaily_app/core/values/gql_query.dart';
 
-class ArticleGqlProvider extends GetxService {
-  final GraphQLProvider graphQLProvider = Get.find();
-
-  Future<List<Section>> getSectionList() async {
-    final query = GQLQuery.getSections;
-    final result = await graphQLProvider.query(query);
-    if (result.hasException || result.data == null) {
+class ArticleGqlProvider extends BaseGQLProvider {
+  Future<List<ArticlePreview>> getArticleListByTag(
+      {required String name, int? take = 10, int? skip = 0}) async {
+    final query = GQLQuery.getArticleListByTag;
+    final result = await executeQuery(query,
+        variables: {'name': name, 'take': take, 'skip': skip});
+    if (result.hasException ||
+        result.data == null ||
+        result.data?['posts'] == null) {
       return [];
     }
-    final dataList = result.data!['sections'] as List<dynamic>;
-    return dataList.map((e) => Section.fromJson(e)).toList();
+
+    final postList = result.data!['posts'] as List<dynamic>;
+    return postList.map((e) => ArticlePreview.fromJson(e)).toList();
   }
 
-  Future<Article?> getArticleBySlug({required String slug}) async {
-    final query = GQLQuery.getArticleBySlug;
-    final result =
-        await graphQLProvider.query(query, variables: {'slug': slug});
+  Future<List<ArticlePreview>> getArticleListByWriter(
+      {required String writerName, int? take = 10, int? skip = 0}) async {
+    final query = GQLQuery.getArticleListByWriter;
+    final result = await executeQuery(query,
+        variables: {'name': writerName, 'take': take, 'skip': skip});
+    if (result.hasException ||
+        result.data == null ||
+        result.data?['posts'] == null) {
+      return [];
+    }
+
+    final postList = result.data!['posts'] as List<dynamic>;
+    return postList.map((e) => ArticlePreview.fromJson(e)).toList();
+  }
+
+  Future<Article?> getArticleById({required String id}) async {
+    final query = GQLQuery.getArticleById;
+    final result = await executeQuery(query, variables: {'id': id});
 
     if (result.hasException ||
         result.data == null ||
         result.data?['post'] == null) {
       return null;
     }
+
     return Article.fromJson(result.data?['post']);
   }
 
-  Future<List<Category>> getCategoryBySectionSlug(
-      {required String? slug}) async {
-    final query = GQLQuery.getCategoriesBySectionSlug;
-    final result =
-        await graphQLProvider.query(query, variables: {'slug': slug});
+  Future<ExternalArticle?> getExternalArticleById({required String id}) async {
+    final query = GQLQuery.getExternalArticleById;
+    final result = await executeQuery(query, variables: {'id': id});
 
     if (result.hasException ||
         result.data == null ||
-        result.data?['categories'] == null) {
-      return [];
+        result.data?['external'] == null) {
+      return null;
     }
-    final categoryList = result.data?['categories'] as List<dynamic>;
 
-    return categoryList.map((e) => Category.fromJson(e)).toList();
+    return ExternalArticle.fromJson(result.data?['external']);
   }
+
 
   Future<List<EditorChoice>> getEditorChoices() async {
     final query = GQLQuery.getEditorChoices;
-    final result = await graphQLProvider.query(query);
+    final result = await executeQuery(query);
     if (result.data == null || !result.data!.containsKey('editorChoices')) {
       return [];
     }
@@ -66,7 +81,7 @@ class ArticleGqlProvider extends GetxService {
 
   Future<LiveStreamLink?> getLiveStreamLink() async {
     final query = GQLQuery.getLiveStreamingLink;
-    final result = await graphQLProvider.query(query);
+    final result = await executeQuery(query);
     if (result.data == null || !result.data!.containsKey('events')) {
       return null;
     }
@@ -77,28 +92,44 @@ class ArticleGqlProvider extends GetxService {
     return LiveStreamLink.fromJson(eventList[0]);
   }
 
-  Future<List<Article>> getArticleBySectionSlug({String? slug}) async {
+  Future<List<Article>> getArticleBySectionSlugAndCategorySlug({
+    String? slug,
+    String? categorySlug,
+    int? skip = 0,
+    int? take = 10,
+  }) async {
     if (slug == null) {
       return [];
     }
-    final query = GQLQuery.getArticleBySectionSlug;
-    final result =
-        await graphQLProvider.query(query, variables: {'slug': slug});
+
+    final isAllCategory = categorySlug == null || categorySlug == 'all';
+    final query = isAllCategory
+        ? GQLQuery.getArticleBySectionOnlySlug
+        : GQLQuery.getArticleBySectionSlug;
+
+    final variables = {
+      'slug': slug,
+      'skip': skip,
+      'take': take,
+      if (!isAllCategory) 'category_slug': categorySlug,
+    };
+
+    final result = await graphQLProvider.query(query, variables: variables);
+
     if (result.hasException ||
         result.data == null ||
         result.data?['posts'] == null) {
       return [];
     }
-    final postList = result.data!['posts'] as List<dynamic>;
 
+    final postList = result.data!['posts'] as List<dynamic>;
     return postList.map((e) => Article.fromJson(e)).toList();
   }
 
   Future<List<ShortArticle>> getShortArticleBySectionSlug(
       {required String slug}) async {
     final query = GQLQuery.getShortBySectionSlug;
-    final result =
-        await graphQLProvider.query(query, variables: {'slug': slug});
+    final result = await executeQuery(query, variables: {'slug': slug});
     if (result.hasException ||
         result.data == null ||
         result.data?['videos'] == null) {
@@ -115,8 +146,9 @@ class ArticleGqlProvider extends GetxService {
       'file': multipartFile,
     };
 
-    final QueryResult result = await graphQLProvider
-        .mutate(GQLQuery.createPreviewImageOfShorts, variables: variables);
+    final QueryResult result = await executeMutation(
+        GQLQuery.createPreviewImageOfShorts,
+        variables: variables);
 
     if (result.hasException) {
       print('上傳失敗: ${result.exception.toString()}');
@@ -132,7 +164,7 @@ class ArticleGqlProvider extends GetxService {
       package.videoXFile!.path,
       contentType: MediaType('video', 'mp4'),
     );
-
+    print('File Size:${multipartFile.length}');
     final Map<String, dynamic> variables = {
       'title': package.title,
       'photoId': photoId,
@@ -142,8 +174,8 @@ class ArticleGqlProvider extends GetxService {
       'file': multipartFile,
     };
 
-    final QueryResult result = await graphQLProvider
-        .mutate(GQLQuery.createShortVideo, variables: variables);
+    final QueryResult result =
+        await executeMutation(GQLQuery.createShortVideo, variables: variables);
 
     if (result.hasException) {
       print('上傳失敗: ${result.exception.toString()}');

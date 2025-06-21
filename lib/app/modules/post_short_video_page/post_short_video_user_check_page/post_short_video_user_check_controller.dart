@@ -12,6 +12,7 @@ class PostShortVideoUserCheckController extends GetxController {
       TextEditingController();
   final TextEditingController emailTextEditingController =
       TextEditingController();
+  final RxBool rxIsNextButtonClickOn = false.obs;
 
   String? _name;
   String? _email;
@@ -31,22 +32,35 @@ class PostShortVideoUserCheckController extends GetxController {
 
   void nameTextChangeEvent() {
     _name = nameTextEditingController.text;
+    checkFormIsFill();
   }
 
   void emailTextChangeEvent() {
     _email = emailTextEditingController.text;
+    checkFormIsFill();
   }
 
   void isAgreeToLicenseVideoChange(bool? value) {
     if (value == null) return;
     rxIsAgreeToLicenseVideo.value = value;
     rxIsLicenseCopyrightErrorDisplay.value = false;
+    checkFormIsFill();
   }
 
   void isContentCopyrightCompliantChange(bool? value) {
     if (value == null) return;
     rxIsContentCopyrightCompliant.value = value;
     rxIsLicenseCopyrightErrorDisplay.value = false;
+    checkFormIsFill();
+  }
+
+  void checkFormIsFill() {
+    rxIsNextButtonClickOn.value = _name != null &&
+        _name!.isNotEmpty &&
+        _email != null &&
+        _email!.isNotEmpty &&
+        rxIsContentCopyrightCompliant.value == true &&
+        rxIsAgreeToLicenseVideo.value == true;
   }
 
   void sentFormResult() {

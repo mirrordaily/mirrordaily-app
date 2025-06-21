@@ -6,11 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mirrordaily_app/app/data/enums/short_preview_source.dart';
 import 'package:mirrordaily_app/app/data/models/post_short_package.dart';
 import 'package:mirrordaily_app/app/data/providers/article_gql_provider.dart';
-import 'package:mirrordaily_app/app/data/providers/local_cache_provider.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:path/path.dart' as p;
 
 class PostShortVideoController extends GetxController {
   final ArticleGqlProvider articleGqlProvider = Get.find();
@@ -23,6 +23,7 @@ class PostShortVideoController extends GetxController {
       TextEditingController();
   final Rx<ShortPreviewSource> rxShortPreviewSource =
       ShortPreviewSource.auto.obs;
+  final RxBool isNextButtonClickOn = false.obs;
 
   XFile? videoXFile;
   final picker = ImagePicker();
@@ -34,12 +35,25 @@ class PostShortVideoController extends GetxController {
   String? _videoExplanation;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     if (Get.arguments != null) {
       videoXFile = Get.arguments;
     }
+
     if (videoXFile == null) Get.back();
+    final fileSize = await videoXFile!.length();
+    if (fileSize > 30000000) {
+      Get.snackbar('Mirror Daily', '檔案超過 30M');
+      Get.back();
+    }
+    if (videoXFile != null) {
+      String filePath = videoXFile!.path;
+      String fileName = p.basename(filePath);
+      titleTextEditingController.text = fileName;
+      _title = fileName;
+    }
+
     generateThumbnail(videoXFile!.path);
     _initializeVideoPlayer();
 
@@ -50,10 +64,17 @@ class PostShortVideoController extends GetxController {
 
   void titleTextChangeEvent() {
     _title = titleTextEditingController.text;
+    checkValueIsFull();
   }
 
   void videoExplanationChangeEvent() {
     _videoExplanation = videoExplanationTextEditingController.text;
+    checkValueIsFull();
+  }
+
+  void checkValueIsFull() {
+    isNextButtonClickOn.value =
+        _videoExplanation!.isNotEmpty && _title!.isNotEmpty;
   }
 
   Future<void> generateThumbnail(String path) async {
@@ -105,9 +126,6 @@ class PostShortVideoController extends GetxController {
     if (_title == null || _title!.isEmpty) {
       return;
     }
-    if (_videoExplanation == null || _videoExplanation!.isEmpty) {
-      return;
-    }
     PostShortPackage package = PostShortPackage(
         title: _title,
         description: _videoExplanation,
@@ -125,6 +143,7 @@ class PostShortVideoController extends GetxController {
 
   @override
   void dispose() {
+    rxnVideoPlayerController.value?.pause();
     rxnVideoPlayerController.value?.dispose();
     super.dispose();
   }

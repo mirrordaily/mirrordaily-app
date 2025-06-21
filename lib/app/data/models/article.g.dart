@@ -46,7 +46,7 @@ Article _$ArticleFromJson(Map<String, dynamic> json) => Article(
           ? null
           : HeroImage.fromJson(json['heroImage'] as Map<String, dynamic>),
       relateds: (json['relateds'] as List<dynamic>?)
-          ?.map((e) => Article.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ArticlePreview.fromJson(e as Map<String, dynamic>))
           .toList(),
       tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -57,6 +57,15 @@ Article _$ArticleFromJson(Map<String, dynamic> json) => Article(
           .toList(),
       sectionList: (json['sections'] as List<dynamic>?)
           ?.map((e) => Section.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      algoTags: (json['tags_algo'] as List<dynamic>?)
+          ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      warningList: (json['Warnings'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      relateArticleList: (json['manualOrderOfRelateds'] as List<dynamic>?)
+          ?.map((e) => ArticlePreview.fromJson(e as Map<String, dynamic>))
           .toList(),
     )
       ..apiDataBrief = (json['apiDataBrief'] as List<dynamic>?)
@@ -99,9 +108,12 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'heroImage': instance.heroImage,
       'relateds': instance.relateds,
       'tags': instance.tags,
+      'tags_algo': instance.algoTags,
       'og_title': instance.ogTitle,
       'sections': instance.sectionList,
       'categories': instance.categoryList,
+      'manualOrderOfRelateds': instance.relateArticleList,
+      'Warnings': instance.warningList,
     };
 
 Styles _$StylesFromJson(Map<String, dynamic> json) => Styles();
@@ -150,6 +162,7 @@ const _$ApiDataTypeEnumMap = {
   ApiDataType.table: 'table',
   ApiDataType.embeddedCode: 'embeddedcode',
   ApiDataType.unKnow: null,
+  ApiDataType.article: 'article',
 };
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(

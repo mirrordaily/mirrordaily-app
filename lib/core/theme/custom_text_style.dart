@@ -18,6 +18,12 @@ class CustomTextStyle {
     color: Colors.black,
   );
 
+  static TextStyle footNode =GoogleFonts.notoSans(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: const Color(0xFF7F8493),
+  );
+
 
   static TextTheme defaultTextTheme = TextTheme(
     displayLarge: GoogleFonts.notoSans(

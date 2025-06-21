@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "471417058402",
+    "project_id": "mirrordaily-dev",
+    "storage_bucket": "mirrordaily-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471417058402:android:3162de6eb8e93698ba8d3b",
+        "android_client_info": {
+          "package_name": "com.mirrormedia.mirrordaily.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbeEuUFXxCMO3stN3gz6u254Y_2k3dqwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

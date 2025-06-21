@@ -26,15 +26,19 @@ class SlideItem extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             SizedBox(
-                width: Get.width,
-                height: Get.width * 0.55,
+              width: double.infinity,
+              height: 250,
+              child: FittedBox(
+                fit: BoxFit.fitHeight,
                 child: editorChoice.heroImage?.resized?.w800 != null &&
                         editorChoice.heroImage?.resized?.w800 != ''
                     ? Image.network(
                         editorChoice.heroImage!.resized!.w800!,
                         fit: BoxFit.fitWidth,
                       )
-                    : Image.asset(ImagePath.imageDefault)),
+                    : Image.asset(ImagePath.imageDefault),
+              ),
+            ),
             Row(
               children: [
                 const SizedBox(
@@ -65,6 +69,8 @@ class SlideItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             editorChoice.choices?.title ?? StringDefault.nullString,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
             style: Get.textTheme.titleMedium
                 ?.copyWith(color: CustomColorTheme.nature10),
           ),

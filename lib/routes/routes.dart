@@ -6,6 +6,7 @@ class Routes {
   static const spillTheTeaPage = '/spillTheTeaPage';
   static const gamePage = '/gamePage';
   static const articlePage = '/articlePage';
+  static const externalArticlePage = '/externalArticlePage';
 
   static const newsPage = '/homePage/news';
   static const shortVideoPage = '/homePage/shortVideo';
@@ -16,7 +17,10 @@ class Routes {
   static const postShortVideoResultPage = '/postShortVideoResultPage';
   static const postShortVideoPage = '/postShortVideoPage';
   static const postShortVideoUserCheckPage = '/postShortVideoUserCheckPage';
-  static const topicListPage = '/topicListPage';
+  static const topicListPage = '/home/topicListPage';
+  static const topicPage = '/topicPage';
+  static const writerPage = '/articlePage/writerPage';
+  static const tagPage = '/articlePage/tagPage';
 
   static const bottomNavigationPages = [
     newsPage,

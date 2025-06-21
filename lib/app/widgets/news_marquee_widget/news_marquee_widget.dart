@@ -1,8 +1,8 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/models/article.dart';
+import 'package:mirrordaily_app/app/data/models/news_marquee.dart';
 import 'package:mirrordaily_app/app/widgets/news_marquee_widget/news_marquee_controller.dart';
 import 'package:mirrordaily_app/core/theme/custom_color_theme.dart';
 import 'package:mirrordaily_app/core/values/string.dart';
@@ -20,7 +20,8 @@ class NewsMarqueeWidget extends GetView<NewsMarqueeController> {
 
   final Axis direction;
   final Duration animationDuration, backDuration, pauseDuration;
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   final CarouselOptions _options = CarouselOptions(
     scrollPhysics: const NeverScrollableScrollPhysics(),
     height: 48,
@@ -57,9 +58,9 @@ class NewsMarqueeWidget extends GetView<NewsMarqueeController> {
             ),
           ),
           Obx(() {
-            final articleList = controller.rxArticleList.value;
+            final newsMarqueeList = controller.rxNewsMarqueeList.value;
             return CarouselSlider(
-              items: _buildList(width, articleList),
+              items: _buildList(width, newsMarqueeList),
               carouselController: _carouselController,
               options: _options,
             );
@@ -69,7 +70,7 @@ class NewsMarqueeWidget extends GetView<NewsMarqueeController> {
     );
   }
 
-  List<Widget> _buildList(double width, List<Article> recordList) {
+  List<Widget> _buildList(double width, List<NewsMarquee> recordList) {
     List<Widget> resultList = [];
     for (int i = 0; i < recordList.length; i++) {
       resultList.add(InkWell(
@@ -79,7 +80,7 @@ class NewsMarqueeWidget extends GetView<NewsMarqueeController> {
             child: MarqueeWidget(
               animationDuration: const Duration(milliseconds: 4000),
               child: Text(
-                recordList[i].title ?? StringDefault.nullString,
+                recordList[i].hotNews?.title ?? StringDefault.nullString,
                 style: Get.textTheme.labelLarge?.copyWith(
                     color: CustomColorTheme.tertiary0,
                     fontWeight: FontWeight.w400),
@@ -87,7 +88,7 @@ class NewsMarqueeWidget extends GetView<NewsMarqueeController> {
             ),
           ),
           onTap: () {
-            controller.goToArticlePage(recordList[i].slug);
+            controller.goToArticlePage(recordList[i].hotNews?.id);
           }));
     }
     return resultList;

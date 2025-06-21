@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mirrordaily_app/app/data/models/topic.dart';
 
 part 'topic_preview.g.dart';
 
@@ -13,7 +15,18 @@ class TopicPreview extends Object {
   @JsonKey(name: 'name')
   String? name;
 
-  TopicPreview(this.slug, this.heroImage, this.name);
+  @JsonKey(name: 'posts', defaultValue: [])
+  List<Posts>? idPostList;
+
+  @JsonKey(name: 'apiDataBrief', defaultValue: [])
+  List<dynamic>? apiDataBrieList;
+
+  TopicPreview(
+      {this.slug,
+      this.heroImage,
+      this.name,
+      this.idPostList,
+      this.apiDataBrieList});
 
   factory TopicPreview.fromJson(Map<String, dynamic> srcJson) =>
       _$TopicPreviewFromJson(srcJson);
@@ -64,13 +77,13 @@ class Resized extends Object {
   String? w2400;
 
   Resized(
-      this.original,
-      this.w480,
-      this.w800,
-      this.w1200,
-      this.w1600,
-      this.w2400,
-      );
+    this.original,
+    this.w480,
+    this.w800,
+    this.w1200,
+    this.w1600,
+    this.w2400,
+  );
 
   factory Resized.fromJson(Map<String, dynamic> srcJson) =>
       _$ResizedFromJson(srcJson);

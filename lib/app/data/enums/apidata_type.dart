@@ -32,5 +32,7 @@ enum ApiDataType {
   @JsonValue('embeddedcode')
   embeddedCode,
   @JsonValue(null)
-  unKnow
+  unKnow,
+  @JsonValue('article')
+  article
 }

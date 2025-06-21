@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mirrordaily_app/app/data/enums/short_section_type.dart';
+import 'package:mirrordaily_app/app/data/providers/short_api_provider.dart';
 import 'package:mirrordaily_app/app/modules/home_page/home_controller.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/news_tab_page.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/short_page/short_tab_page.dart';
@@ -12,55 +15,41 @@ import 'package:mirrordaily_app/routes/routes.dart';
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
-  Widget _buildTabItem(String title, bool isSelect) {
-    return Tab(
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelect ? Colors.black : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(title),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(ImagePath.mirrorNesNetworkLogo),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: InkWell(
-              onTap: () {},
-              child: const Icon(
-                Icons.search,
-                size: 20,
-              ),
-            ),
-          ),
-        ],
+        title: SvgPicture.asset(ImagePath.mirrorNesNetworkLogo),
+        backgroundColor: CustomColorTheme.primary10,
+        ///因搜尋功能尚未實作  先註解
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 20),
+        //     child: InkWell(
+        //       onTap: () {
+        //         Get.toNamed(Routes.searchPage);
+        //       },
+        //       child: SvgPicture.asset(ImagePath.searchIcon),
+        //     ),
+        //   ),
+        // ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Obx(() {
             final tabController = controller.rxnTabController.value;
             return TabBar(
               controller: tabController,
-              indicator: const UnderlineTabIndicator(
+              indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(
                   width: 10, // **設定 Indicator 的高度**
-                  color: Colors.black, // **Indicator 顏色**
+                  color: CustomColorTheme.primary90, // **Indicator 顏色**
                 ),
               ),
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: Colors.green,
-              labelColor: CustomColorTheme.secondary20,
-              unselectedLabelColor: Colors.grey,
+              labelColor: CustomColorTheme.primary90,
+              unselectedLabelColor: CustomColorTheme.primary30,
               labelStyle: CustomTextStyle.subtitleSmall.copyWith(
-                  color: CustomColorTheme.secondary20,
+                  color: CustomColorTheme.primary90,
                   fontWeight: FontWeight.w700),
               tabs: const [
                 Tab(text: "新聞"),

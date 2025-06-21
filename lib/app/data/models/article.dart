@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mirrordaily_app/app/data/enums/apidata_type.dart';
+import 'package:mirrordaily_app/app/data/models/article_preview.dart';
 
 part 'article.g.dart';
 
@@ -88,10 +89,13 @@ class Article extends Object {
   HeroImage? heroImage;
 
   @JsonKey(name: 'relateds')
-  List<Article>? relateds;
+  List<ArticlePreview>? relateds;
 
   @JsonKey(name: 'tags')
   List<Tag>? tags;
+
+  @JsonKey(name: 'tags_algo')
+  List<Tag>? algoTags;
 
   @JsonKey(name: 'og_title')
   String? ogTitle;
@@ -101,6 +105,12 @@ class Article extends Object {
 
   @JsonKey(name: 'categories')
   List<Category>? categoryList;
+
+  @JsonKey(name: 'manualOrderOfRelateds')
+  List<ArticlePreview>? relateArticleList;
+
+  @JsonKey(name: 'Warnings')
+  List<Map<String, dynamic>>? warningList;
 
   Article(
       {this.id,
@@ -131,10 +141,57 @@ class Article extends Object {
       this.tags,
       this.ogTitle,
       this.categoryList,
-      this.sectionList});
+      this.sectionList,
+      this.algoTags,
+      this.warningList,
+      this.relateArticleList});
 
-  factory Article.fromJson(Map<String, dynamic> srcJson) =>
-      _$ArticleFromJson(srcJson);
+  factory Article.fromJson(Map<String, dynamic> srcJson) {
+    return _$ArticleFromJson(srcJson);
+  }
+
+  List<Tag> get combinedTags {
+    return [
+      ...(tags ?? []),
+      ...(algoTags ?? []),
+    ];
+  }
+
+  List<ArticlePreview> get orderedRelateds {
+    if (relateds == null || relateArticleList == null) return relateds ?? [];
+    final manualOrderIds =
+        relateArticleList!.map((e) => e.id).whereType<String>().toList();
+    final relatedMap = {for (var r in relateds!) r.id: r};
+    final ordered = <ArticlePreview>[];
+
+    // 加入 manual order 中有的
+    for (var id in manualOrderIds) {
+      if (relatedMap.containsKey(id)) {
+        ordered.add(relatedMap[id]!);
+      }
+    }
+
+    // 加入其他未在 manual order 中的
+    for (var r in relateds!) {
+      if (!manualOrderIds.contains(r.id)) {
+        ordered.add(r);
+      }
+    }
+
+    return ordered;
+  }
+
+  bool get isApiDataBriefBlank {
+    if (apiDataBrief == null || apiDataBrief!.isEmpty) return true;
+
+    return apiDataBrief!.every((data) {
+      final content = data.content;
+      return content == null ||
+          content.isEmpty ||
+          content.every((element) =>
+              (element is String && element.trim().isEmpty) || element == null);
+    });
+  }
 
   Map<String, dynamic> toJson() => _$ArticleToJson(this);
 }
@@ -180,6 +237,7 @@ class ApiData extends Object {
       case ApiDataType.headerThree:
       case ApiDataType.headerTwo:
       case ApiDataType.unStyled:
+      case ApiDataType.article:
       case ApiDataType.blockQuote:
       case ApiDataType.divider:
         apiDataObj.contentData = apiDataObj.content?[0];
@@ -345,7 +403,6 @@ class Section extends Object {
 
 @JsonSerializable()
 class Tag extends Object {
-
   @JsonKey(name: 'id')
   String? id;
 
@@ -355,11 +412,9 @@ class Tag extends Object {
   @JsonKey(name: 'name')
   String? name;
 
-  Tag({this.id,this.slug,this.name});
+  Tag({this.id, this.slug, this.name});
 
   factory Tag.fromJson(Map<String, dynamic> srcJson) => _$TagFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
-
 }
-

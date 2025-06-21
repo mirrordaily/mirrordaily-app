@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
       maxLines: maxLines,
       controller: controller,
       style: CustomTextStyle.subtitleMedium.copyWith(fontSize: 14),
+      scrollPhysics: const BouncingScrollPhysics(),
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),

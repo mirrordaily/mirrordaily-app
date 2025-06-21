@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/enums/choice_type.dart';
 import 'package:mirrordaily_app/app/data/enums/news_type.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/news_tab_controller.dart';
-import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/article_list_item.dart';
+import 'package:mirrordaily_app/app/widgets/article_list_item.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/editor_choice_widget/editor_choice_widget.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/live_stream_widget.dart';
+import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/weather_widget.dart';
 import 'package:mirrordaily_app/app/widgets/custom_outlined_button.dart';
 import 'package:mirrordaily_app/core/values/string.dart';
 import 'package:mirrordaily_app/routes/routes.dart';
@@ -18,40 +19,37 @@ class LatestTabContent extends StatelessWidget {
     final controller = Get.find<NewsTabController>();
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Obx(() {
-              final type = controller.rxChoiceSelectType.value;
-              return CustomOutlinedButton(
-                text: '編輯精選',
-                isSelect: type == ChoiceType.editor,
-                onClickEvent: () {
-                  controller.choiceTypeClickEvent(ChoiceType.editor);
-                },
-              );
-            }),
-            const SizedBox(
-              width: 8,
-            ),
-            Obx(() {
-              final type = controller.rxChoiceSelectType.value;
-              return CustomOutlinedButton(
-                text: 'AI 精選',
-                isSelect: type == ChoiceType.ai,
-                onClickEvent: () =>
-                    controller.choiceTypeClickEvent(ChoiceType.ai),
-              );
-            }),
-          ],
-        ),
+        //   Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Obx(() {
+        //       final type = controller.rxChoiceSelectType.value;
+        //       return CustomOutlinedButton(
+        //         text: '編輯精選',
+        //         isSelect: type == ChoiceType.editor,
+        //         onClickEvent: () {
+        //           controller.choiceTypeClickEvent(ChoiceType.editor);
+        //         },
+        //       );
+        //     }),
+        //     const SizedBox(
+        //       width: 8,
+        //     ),
+        //     Obx(() {
+        //       final type = controller.rxChoiceSelectType.value;
+        //       return CustomOutlinedButton(
+        //         text: 'AI 精選',
+        //         isSelect: type == ChoiceType.ai,
+        //         onClickEvent: () =>
+        //             controller.choiceTypeClickEvent(ChoiceType.ai),
+        //       );
+        //     }),
+        //   ],
+        // ),
         const SizedBox(
           height: 16,
         ),
-        Obx(() {
-          final editorChoiceList = controller.rxEditorChoiceList.value;
-          return EditorChoiceWidget(editorChoiceList: editorChoiceList);
-        }),
+        const EditorChoiceWidget(),
         Obx(() {
           final liveStreamLink = controller.rxnLiveStreamLink.value;
           final youtubePlayerController =
@@ -105,9 +103,12 @@ class LatestTabContent extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.articlePage,
-                          arguments: renderArticleList[index].slug);
+                    onTap: () async {
+                      renderArticleList[index].isExternal
+                          ? Get.toNamed(Routes.externalArticlePage,
+                              arguments: renderArticleList[index].id)
+                          : Get.toNamed(Routes.articlePage,
+                              arguments: renderArticleList[index].id);
                     },
                     child: ArticleListItem(
                       article: renderArticleList[index],
@@ -128,11 +129,18 @@ class LatestTabContent extends StatelessWidget {
                 itemCount: renderArticleList.length);
           }),
         ),
-        OutlinedButton(
-            onPressed: () {
-              controller.test();
-            },
-            child: const Text('Article page')),
+        Obx(() {
+          final city = controller.rxWeatherSelectCity.value;
+          final weatherData = controller.rxSelectWeatherData.value;
+          return WeatherWidget(
+            city: city,
+            weatherData: weatherData,
+            onCitySelectEvent: controller.weatherCitySelectEvent,
+          );
+        }),
+        const SizedBox(
+          height: 50,
+        ),
       ],
     );
   }

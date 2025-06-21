@@ -1,3 +1,6 @@
 import 'package:get/get.dart';
 
-class SearchController extends GetxController {}
+class SearchController extends GetxController {
+
+
+}

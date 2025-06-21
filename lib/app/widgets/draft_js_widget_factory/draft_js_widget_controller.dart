@@ -8,7 +8,8 @@ class DraftJsWidgetController extends GetxController {
   final DraftJsWidgetFactory _draftJsWidgetFactory = DraftJsWidgetFactory();
 
   Widget getWidget(ApiData? apiData) {
-
-    return  apiData!=null?_draftJsWidgetFactory.createWidget(apiData):const SizedBox.shrink();
+    return apiData != null
+        ? _draftJsWidgetFactory.createWidget(apiData)
+        : const SizedBox.shrink();
   }
 }

@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/models/short_article.dart';
 import 'package:mirrordaily_app/app/data/models/video_item.dart';
 import 'package:mirrordaily_app/app/data/providers/local_cache_provider.dart';
+import 'package:mirrordaily_app/configs/environment.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class ShortItemController extends GetxController {
@@ -10,9 +14,9 @@ class ShortItemController extends GetxController {
   final LocalCacheProvider localCacheProvider = Get.find();
 
   ShortItemController(this.shortArticle) {
-    if (shortArticle.videoSrc != null) {
+    if (shortArticle.videoUrl != null) {
       rxnVideoPlayerController.value =
-          VideoPlayerController.networkUrl(Uri.parse(shortArticle.videoSrc!))
+          VideoPlayerController.networkUrl(Uri.parse(shortArticle.videoUrl!))
             ..initialize().then((_) {
               rxnVideoPlayerController.value?.play();
               rxnVideoPlayerController.value?.setLooping(true);
@@ -45,7 +49,9 @@ class ShortItemController extends GetxController {
 
   @override
   void onClose() {
-    rxnVideoPlayerController.value?.dispose();
+    rxnVideoPlayerController.value?.pause();
     super.onClose();
   }
+
+
 }

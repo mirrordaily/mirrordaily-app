@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_embedded_webview/flutter_embedded_webview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:mirrordaily_app/app/widgets/draft_js_widget_factory/widget/slide
 import 'package:mirrordaily_app/app/widgets/draft_js_widget_factory/widget/table_widget.dart';
 import 'package:mirrordaily_app/app/widgets/draft_js_widget_factory/widget/video_widget/video_widget.dart';
 import 'package:mirrordaily_app/app/widgets/draft_js_widget_factory/widget/youtube_widget/youtube_widget.dart';
+import 'package:mirrordaily_app/app/widgets/draft_js_widget_factory/widget/yt_embedded_test_widget.dart';
+import 'package:mirrordaily_app/app/widgets/network_image_widget.dart';
 import 'package:mirrordaily_app/core/theme/custom_color_theme.dart';
 import 'package:mirrordaily_app/core/theme/custom_text_style.dart';
 import 'package:mirrordaily_app/core/values/image_path.dart';
@@ -18,6 +21,7 @@ import 'widget/audio_widget/audio_widget.dart';
 class DraftJsWidgetFactory {
   Widget createWidget(ApiData apiData) {
     switch (apiData.type) {
+      case ApiDataType.article:
       case ApiDataType.unStyled:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -142,7 +146,9 @@ class DraftJsWidgetFactory {
       case ApiDataType.image:
         return Column(
           children: [
-            Image.network(apiData.contentMap?['resized']['w800']),
+            NetworkImageWidget(
+              url: apiData.contentMap?['resized']['w800'],
+            ),
             const SizedBox(
               height: 8,
             ),
@@ -208,15 +214,21 @@ class DraftJsWidgetFactory {
         if (width != null && height != null) {
           aspectRatio = height / width;
         }
-        return SizedBox();
-        // return EmbeddedCodeWidget(
-        //   embeddedCode: apiData.contentMap?['embeddedCode'],
-        //   aspectRatio: aspectRatio,
-        // );
+        return SizedBox(
+          width: width,
+          height: height,
+          child: EmbeddedCodeWidget(
+            embeddedCode: apiData.contentMap?['embeddedCode'],
+            aspectRatio: aspectRatio,
+          ),
+        );
+
+
       case ApiDataType.youtube:
         return YoutubeWidget(videoUrl: apiData.contentMap?['youtubeId']);
       case ApiDataType.videoV2:
         return VideoWidget(videoUrl: apiData.contentMap?['video']['videoSrc']);
+        // case ApiDataType.an
       default:
         return Text(apiData.type.toString());
     }

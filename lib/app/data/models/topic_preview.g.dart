@@ -7,11 +7,16 @@ part of 'topic_preview.dart';
 // **************************************************************************
 
 TopicPreview _$TopicPreviewFromJson(Map<String, dynamic> json) => TopicPreview(
-      json['slug'] as String?,
-      json['heroImage'] == null
+      slug: json['slug'] as String?,
+      heroImage: json['heroImage'] == null
           ? null
           : HeroImage.fromJson(json['heroImage'] as Map<String, dynamic>),
-      json['name'] as String?,
+      name: json['name'] as String?,
+      idPostList: (json['posts'] as List<dynamic>?)
+              ?.map((e) => Posts.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      apiDataBrieList: json['apiDataBrief'] as List<dynamic>? ?? [],
     );
 
 Map<String, dynamic> _$TopicPreviewToJson(TopicPreview instance) =>
@@ -19,6 +24,8 @@ Map<String, dynamic> _$TopicPreviewToJson(TopicPreview instance) =>
       'slug': instance.slug,
       'heroImage': instance.heroImage,
       'name': instance.name,
+      'posts': instance.idPostList,
+      'apiDataBrief': instance.apiDataBrieList,
     };
 
 HeroImage _$HeroImageFromJson(Map<String, dynamic> json) => HeroImage(
