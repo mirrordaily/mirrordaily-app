@@ -1,0 +1,1 @@
+enum ShortPreviewSource { auto, customer }

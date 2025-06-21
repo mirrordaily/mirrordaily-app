@@ -1,0 +1,4 @@
+enum ChoiceType {
+  editor,
+  ai,
+}
