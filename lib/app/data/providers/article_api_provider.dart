@@ -1,12 +1,9 @@
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/helper/api_base_helper.dart';
-import 'package:mirrordaily_app/app/data/models/article.dart';
 import 'package:mirrordaily_app/app/data/models/article_preview.dart';
 import 'package:mirrordaily_app/app/data/models/news_marquee.dart';
-
 import 'package:mirrordaily_app/app/data/providers/grapg_ql_provider.dart';
 import 'package:mirrordaily_app/configs/environment.dart';
-import 'package:mirrordaily_app/core/values/gql_query.dart';
 
 class ArticleApiProvider extends GetxService {
   final GraphQLProvider graphQLProvider = Get.find();

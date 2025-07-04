@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/tab_content/topic_tab_content/topic_tab_controller.dart';
 import 'package:mirrordaily_app/core/theme/custom_text_style.dart';
 import 'package:mirrordaily_app/core/values/string.dart';
+import 'package:mirrordaily_app/routes/routes.dart';
 
 class TopicTabContent extends GetView<TopicTabController> {
   const TopicTabContent({super.key});
@@ -21,6 +22,7 @@ class TopicTabContent extends GetView<TopicTabController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   AspectRatio(
                     aspectRatio: 3/2,// 或你想要的比例
                     child: ClipRRect(

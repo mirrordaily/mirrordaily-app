@@ -240,6 +240,7 @@ class ApiData extends Object {
       case ApiDataType.article:
       case ApiDataType.blockQuote:
       case ApiDataType.divider:
+      case ApiDataType.section:
         apiDataObj.contentData = apiDataObj.content?[0];
         break;
       case ApiDataType.unorderedListItem:

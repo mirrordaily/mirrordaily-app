@@ -11,6 +11,7 @@ class SectionPageController extends GetxController {
   final RxList<Category> rxnCategoryList = RxList();
   final Rx<Category> rxSelectCategory = Rx(Category());
   final RxList<Article> rxArticleList = RxList();
+  final RxBool rxIsAllArticle = false.obs;
 
   int page = 0;
 
@@ -40,15 +41,23 @@ class SectionPageController extends GetxController {
         await articleApiProvider.getArticleBySectionSlugAndCategorySlug(
             slug: rxnSection.value?.slug,
             categorySlug: rxSelectCategory.value.slug);
+    if (rxArticleList.length < 10) {
+      rxIsAllArticle.value = true;
+    }
   }
 
   void fetchMoreButtonClick() async {
+    if (rxIsAllArticle.value == true) return;
     page++;
     final newArticleList =
         await articleApiProvider.getArticleBySectionSlugAndCategorySlug(
             slug: rxnSection.value?.slug,
             categorySlug: rxSelectCategory.value.slug,
             skip: page * 10);
+    if (newArticleList.length < 10) {
+      rxIsAllArticle.value = true;
+    }
+
     rxArticleList.addAll(newArticleList);
   }
 

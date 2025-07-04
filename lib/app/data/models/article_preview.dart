@@ -42,10 +42,10 @@ class ArticlePreview extends Object {
 
   Map<String, dynamic> toJson() => _$ArticlePreviewToJson(this);
 
-  String? get formattedCreatedAt {
-    if (createdAt == null) return null;
+  String? get formattedPublishedDate {
+    if (publishedDate == null) return null;
     try {
-      DateTime dateTime = DateTime.parse(createdAt!).toLocal();
+      DateTime dateTime = DateTime.parse(publishedDate!).toLocal();
       return dateTime.toFormattedYYYYMMDDHHMMSS();
     } catch (e) {
       return null; // 解析錯誤時返回空字串

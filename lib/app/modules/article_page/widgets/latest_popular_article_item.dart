@@ -22,12 +22,6 @@ class LatestPopularArticleItem extends StatelessWidget {
                 url: articlePreview.heroImage?.resized?.w800,
               ),
 
-              // Image.network(
-              //   articlePreview.heroImage?.resized?.w800 ?? '',
-              //   errorBuilder: (context, error, trace) {
-              //     return Image.asset(ImagePath.imageDefault);
-              //   },
-              // ),
               Positioned(
                 left: 8,
                 bottom: 6,

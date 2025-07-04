@@ -23,6 +23,7 @@ class DraftJsWidgetFactory {
     switch (apiData.type) {
       case ApiDataType.article:
       case ApiDataType.unStyled:
+      case ApiDataType.section:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: HtmlWidget(apiData.contentData ?? StringDefault.nullString,

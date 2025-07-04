@@ -34,5 +34,7 @@ enum ApiDataType {
   @JsonValue(null)
   unKnow,
   @JsonValue('article')
-  article
+  article,
+  @JsonValue('section')
+  section
 }

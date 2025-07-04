@@ -163,6 +163,7 @@ const _$ApiDataTypeEnumMap = {
   ApiDataType.embeddedCode: 'embeddedcode',
   ApiDataType.unKnow: null,
   ApiDataType.article: 'article',
+  ApiDataType.section: 'section',
 };
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(

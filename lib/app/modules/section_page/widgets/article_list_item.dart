@@ -65,11 +65,14 @@ class ArticleListItem extends StatelessWidget {
               children: [
                 Expanded(
                     flex: 1,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: article.heroImage?.resized?.w800 != null
-                            ? Image.network(article.heroImage!.resized!.w800!)
-                            : Image.asset(ImagePath.imageDefault))),
+                    child: AspectRatio(
+                      aspectRatio: 3 / 2,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: article.heroImage?.resized?.w800 != null
+                              ? Image.network(article.heroImage!.resized!.w800!)
+                              : Image.asset(ImagePath.imageDefault)),
+                    )),
                 const SizedBox(
                   width: 12,
                 ),

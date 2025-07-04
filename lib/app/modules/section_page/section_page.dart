@@ -36,8 +36,8 @@ class SectionPage extends GetView<SectionPageController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx(() {
-              final categoryList = controller.rxnCategoryList.value;
-
+              final categoryList = controller.rxnCategoryList;
+              if (categoryList.isEmpty) return const SizedBox.shrink();
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -46,16 +46,14 @@ class SectionPage extends GetView<SectionPageController> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 6),
                             child: InkWell(
-                              onTap: () =>
-                                  controller.categorySelectEvent(category),
+                              onTap: () => controller.categorySelectEvent(category),
                               child: Obx(() {
-                                final selectCategory =
-                                    controller.rxSelectCategory.value;
+                                final selectCategory = controller.rxSelectCategory.value;
                                 return Text(
                                   category.name ?? StringDefault.nullString,
                                   style: CustomTextStyle.subtitleSmall.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      color: selectCategory == category
+                                      color: selectCategory?.slug == category.slug
                                           ? controller.sectionColor
                                           : CustomColorTheme.secondary70),
                                 );
@@ -66,7 +64,6 @@ class SectionPage extends GetView<SectionPageController> {
                 ),
               );
             }),
-            // NewsMarqueeWidget(),
             const SizedBox(
               height: 28,
             ),
@@ -93,9 +90,14 @@ class SectionPage extends GetView<SectionPageController> {
                   },
                   itemCount: articleList.length);
             }),
-            Center(
-                child: FetchMoreButton(
-                    onClickButton: controller.fetchMoreButtonClick)),
+            Obx(
+                    (){
+                      final isAllArticle =controller.rxIsAllArticle.value;
+                return isAllArticle?const SizedBox.shrink(): Center(
+                    child: FetchMoreButton(
+                        onClickButton: controller.fetchMoreButtonClick));
+              }
+            ),
             const SizedBox(
               height: 150,
             )

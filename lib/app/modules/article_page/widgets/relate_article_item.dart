@@ -27,11 +27,14 @@ class RelateArticleItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             child: Stack(
               children: [
-                Image.network(
-                  article.heroImage?.resized?.w800 ?? '',
-                  errorBuilder: (context, error, trace) {
-                    return Image.asset(ImagePath.imageDefault);
-                  },
+                AspectRatio(
+                  aspectRatio: 3/2,
+                  child: Image.network(
+                    article.heroImage?.resized?.w800 ?? '',
+                    errorBuilder: (context, error, trace) {
+                      return Image.asset(ImagePath.imageDefault);
+                    },
+                  ),
                 ),
                 Positioned(
                     left: 8,
@@ -46,7 +49,7 @@ class RelateArticleItem extends StatelessWidget {
                       ),
                       child: Text(
                         article.sections?[0].name ?? StringDefault.nullString,
-                        style: const TextStyle(fontSize: 10),
+                        style: const TextStyle(fontSize: 10,color: Colors.white),
                       ),
                     ))
               ],

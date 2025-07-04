@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:mirrordaily_app/app/data/enums/choice_type.dart';
-import 'package:mirrordaily_app/app/data/enums/city.dart';
 import 'package:mirrordaily_app/app/data/enums/news_page_type.dart';
-import 'package:mirrordaily_app/app/data/enums/news_type.dart';
 import 'package:mirrordaily_app/app/data/models/topic_preview.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/news_tab_controller.dart';
-import 'package:mirrordaily_app/app/widgets/article_list_item.dart';
-import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/editor_choice_widget/editor_choice_widget.dart';
-import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/live_stream_widget.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/tab_content/latest_tab_content.dart';
 import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/tab_content/topic_tab_content/topic_tab_content.dart';
-import 'package:mirrordaily_app/app/modules/home_page/tab_pages/news_page/widget/weather_widget.dart';
-import 'package:mirrordaily_app/app/widgets/custom_outlined_button.dart';
 import 'package:mirrordaily_app/app/widgets/news_marquee_widget/news_marquee_widget.dart';
+import 'package:mirrordaily_app/app/widgets/webview_widget.dart';
 import 'package:mirrordaily_app/core/theme/custom_color_theme.dart';
 import 'package:mirrordaily_app/core/theme/custom_text_style.dart';
-import 'package:mirrordaily_app/core/values/image_path.dart';
 import 'package:mirrordaily_app/core/values/string.dart';
-import 'package:mirrordaily_app/routes/routes.dart';
 
 import '../../../../data/models/article.dart';
 
@@ -74,7 +64,7 @@ class NewsTabPage extends GetView<NewsTabController> {
             return SizedBox(
               height: 35,
               child: ListView.separated(
-                shrinkWrap: true,
+                  shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return renderTopicListItem(topicPreview: topicList[index]);
@@ -97,6 +87,12 @@ class NewsTabPage extends GetView<NewsTabController> {
             );
           }),
           NewsMarqueeWidget(),
+          SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: CustomWebViewWidget(
+                  url:
+                      'https://www.readr.tw/project/3/taiwan-elections/index.html')),
           const SizedBox(
             height: 16,
           ),

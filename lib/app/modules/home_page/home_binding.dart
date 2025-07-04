@@ -11,6 +11,7 @@ import 'tab_pages/news_page/widget/tab_content/topic_tab_content/topic_tab_contr
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
+
     Get.put(WeatherApiProvider());
     Get.put(ShortApiProvider());
     Get.put(HomeController());
