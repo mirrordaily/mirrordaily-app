@@ -385,8 +385,10 @@ class Section extends Object {
 
   @JsonKey(name: 'slug')
   String? slug;
+  @JsonKey(name: 'categories', defaultValue: [])
+  List<Category>? categories;
 
-  Section({this.id, this.name, this.color, this.slug});
+  Section({this.id, this.name, this.color, this.slug, this.categories});
 
   Color get renderColor {
     String hexColor = color?.toUpperCase().replaceAll("#", "") ?? 'FFFFFF';

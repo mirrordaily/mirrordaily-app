@@ -10,8 +10,7 @@ class HeaderDataProvider extends GetxService {
   final RxList<Section> rxSectionList = RxList();
   final RxList<TopicPreview> rxTopicTabBarList = RxList();
 
-  @override
-  void onReady() async {
+  Future<void> fetchHeaderData() async {
     final result = await headerApiProvider.getHeaderJson();
     for (var item in result) {
       if (item is Map<String, dynamic>) {
@@ -22,5 +21,11 @@ class HeaderDataProvider extends GetxService {
         }
       }
     }
+
+  }
+
+  @override
+  void onReady() async {
+    fetchHeaderData();
   }
 }

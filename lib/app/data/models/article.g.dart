@@ -229,6 +229,10 @@ Section _$SectionFromJson(Map<String, dynamic> json) => Section(
       name: json['name'] as String?,
       color: json['color'] as String?,
       slug: json['slug'] as String?,
+      categories: (json['categories'] as List<dynamic>?)
+              ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$SectionToJson(Section instance) => <String, dynamic>{
@@ -236,6 +240,7 @@ Map<String, dynamic> _$SectionToJson(Section instance) => <String, dynamic>{
       'name': instance.name,
       'color': instance.color,
       'slug': instance.slug,
+      'categories': instance.categories,
     };
 
 Tag _$TagFromJson(Map<String, dynamic> json) => Tag(

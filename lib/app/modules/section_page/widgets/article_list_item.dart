@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mirrordaily_app/app/data/models/article.dart';
+import 'package:mirrordaily_app/app/data/models/article_preview.dart';
 import 'package:mirrordaily_app/core/extensions/string_extension.dart';
 import 'package:mirrordaily_app/core/values/image_path.dart';
 import 'package:mirrordaily_app/core/values/string.dart';
@@ -12,7 +13,7 @@ class ArticleListItem extends StatelessWidget {
       required this.mainColor,
       this.isFirst = false});
 
-  final Article article;
+  final ArticlePreview article;
   final bool? isFirst;
   final Color? mainColor;
 
