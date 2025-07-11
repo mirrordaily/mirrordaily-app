@@ -92,7 +92,7 @@ class ArticleGqlProvider extends BaseGQLProvider {
     return LiveStreamLink.fromJson(eventList[0]);
   }
 
-  Future<List<Article>> getArticleBySectionSlugAndCategorySlug({
+  Future<List<ArticlePreview>> getArticleBySectionSlugAndCategorySlug({
     String? slug,
     String? categorySlug,
     int? skip = 0,
@@ -123,7 +123,7 @@ class ArticleGqlProvider extends BaseGQLProvider {
     }
 
     final postList = result.data!['posts'] as List<dynamic>;
-    return postList.map((e) => Article.fromJson(e)).toList();
+    return postList.map((e) => ArticlePreview.fromJson(e)).toList();
   }
 
   Future<List<ShortArticle>> getShortArticleBySectionSlug(

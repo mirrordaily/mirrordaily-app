@@ -27,6 +27,9 @@ class ArticlePreview extends Object {
   @JsonKey(name: 'publishedDate')
   String? publishedDate;
 
+  @JsonKey(name: 'type')
+  String? type;
+
   @PartnerConverter()
   @JsonKey(name: 'partner')
   Map<String, dynamic>? partner;
@@ -35,7 +38,7 @@ class ArticlePreview extends Object {
   List<Category>? category;
 
   ArticlePreview(this.slug, this.title, this.heroImage, this.createdAt,
-      this.sections, this.id, this.publishedDate, this.category, this.partner);
+      this.sections, this.id, this.publishedDate, this.category, this.partner, this.type);
 
   factory ArticlePreview.fromJson(Map<String, dynamic> srcJson) =>
       _$ArticlePreviewFromJson(srcJson);

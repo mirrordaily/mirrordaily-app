@@ -70,4 +70,94 @@ class ArticleApiProvider extends GetxService {
       return null;
     }
   }
+
+  Future<List<ArticlePreview>> getMoreSectionArticlesByGql({
+    required String sectionSlug,
+    int skip = 0,
+    int take = 10,
+  }) async {
+    const query = '''
+      query (
+        \$slug: String!, \$take: Int, \$skip: Int
+      ) {
+        posts(
+          where: { sections: { some: { slug: { contains: \$slug } } } }
+          take: \$take
+          skip: \$skip
+          orderBy: { publishedDate: desc }
+        ) {
+          id
+          slug
+          title
+          publishedDate
+          type
+          heroImage {
+            resized {
+              original
+              w480
+              w800
+              w1200
+              w1600
+              w2400
+            }
+          }
+        }
+      }
+    ''';
+    final result = await graphQLProvider.query(query, variables: {
+      'slug': sectionSlug,
+      'take': take,
+      'skip': skip,
+    });
+    if (result.hasException || result.data == null || result.data?['posts'] == null) {
+      return [];
+    }
+    final list = result.data?['posts'] as List<dynamic>;
+    return list.map((e) => ArticlePreview.fromJson(e)).toList();
+  }
+
+  Future<List<ArticlePreview>> getMoreCategoryArticlesByGql({
+    required String categorySlug,
+    int skip = 0,
+    int take = 10,
+  }) async {
+    const query = '''
+      query (
+        \$category_slug: String!, \$take: Int, \$skip: Int
+      ) {
+        posts(
+          where: { categories: { some: { slug: { equals: \$category_slug } } } }
+          take: \$take
+          skip: \$skip
+          orderBy: { publishedDate: desc }
+        ) {
+          id
+          slug
+          title
+          publishedDate
+          type
+          heroImage {
+            resized {
+              original
+              w480
+              w800
+              w1200
+              w1600
+              w2400
+            }
+          }
+        }
+      }
+    ''';
+    final result = await graphQLProvider.query(query, variables: {
+      'category_slug': categorySlug,
+      'take': take,
+      'skip': skip,
+    });
+    if (result.hasException || result.data == null || result.data?['posts'] == null) {
+      return [];
+    }
+    final list = result.data?['posts'] as List<dynamic>;
+    return list.map((e) => ArticlePreview.fromJson(e)).toList();
+  }
 }

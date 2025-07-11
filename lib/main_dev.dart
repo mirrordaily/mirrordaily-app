@@ -11,7 +11,7 @@ import 'firebase_options_dev.dart'; // 檔名應該是 _dev.dart（不是.dev.da
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  Environment().initConfig(BuildFlavor.development);
+  Environment().initConfig(BuildFlavor.production);
   await Firebase.initializeApp();
 
   runApp(const MirrorDailyApp());

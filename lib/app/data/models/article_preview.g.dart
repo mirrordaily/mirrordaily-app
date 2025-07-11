@@ -24,6 +24,7 @@ ArticlePreview _$ArticlePreviewFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       const PartnerConverter().fromJson(json['partner']),
+      json['type'] as String?,
     );
 
 Map<String, dynamic> _$ArticlePreviewToJson(ArticlePreview instance) =>
@@ -35,6 +36,7 @@ Map<String, dynamic> _$ArticlePreviewToJson(ArticlePreview instance) =>
       'createdAt': instance.createdAt,
       'id': instance.id,
       'publishedDate': instance.publishedDate,
+      'type': instance.type,
       'partner': const PartnerConverter().toJson(instance.partner),
       'categories': instance.category,
     };

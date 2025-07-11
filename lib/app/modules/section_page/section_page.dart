@@ -93,14 +93,9 @@ class SectionPage extends GetView<SectionPageController> {
                   },
                   itemCount: articleList.length);
             }),
-            Obx(() {
-              final isAllArticle = controller.rxIsAllArticle.value;
-              return isAllArticle
-                  ? const SizedBox.shrink()
-                  : Center(
-                      child: FetchMoreButton(
-                          onClickButton: controller.fetchMoreButtonClick));
-            }),
+            Center(
+                child: FetchMoreButton(
+                    onClickButton: controller.fetchMoreButtonClick)),
             const SizedBox(
               height: 150,
             )

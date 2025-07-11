@@ -87,12 +87,12 @@ class NewsTabPage extends GetView<NewsTabController> {
             );
           }),
           NewsMarqueeWidget(),
-          SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: CustomWebViewWidget(
-                  url:
-                      'https://www.readr.tw/project/3/taiwan-elections/index.html')),
+          // SizedBox(
+          //     height: 300,
+          //     width: double.infinity,
+          //     child: CustomWebViewWidget(
+          //         url:
+          //             'https://www.readr.tw/project/3/taiwan-elections/index.html')),
           const SizedBox(
             height: 16,
           ),
