@@ -27,7 +27,10 @@ class GQLQuery {
             name
         }
         slug
+        id
         title
+        createdAt
+        publishedDate
         categories {
             name
         }
@@ -62,7 +65,10 @@ class GQLQuery {
       orderBy: { createdAt: desc }
     ) {
       slug
+      id
       title
+      createdAt
+      publishedDate
       categories {
         name
       }

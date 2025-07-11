@@ -27,14 +27,17 @@ class TopicBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4), // 圓角
-                      child: Image.network(
-                        postList[index].heroImage?.resized?.w800 ?? '',
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(StringDefault.imageDefaultUrl);
-                        },
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4), // 圓角
+                        child: Image.network(
+                          postList[index].heroImage?.resized?.w800 ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(StringDefault.imageDefaultUrl);
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(

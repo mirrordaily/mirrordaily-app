@@ -11,6 +11,7 @@ import 'package:mirrordaily_app/app/data/models/topic_preview.dart';
 import 'package:mirrordaily_app/app/data/models/weather_response.dart';
 import 'package:mirrordaily_app/app/data/providers/article_api_provider.dart';
 import 'package:mirrordaily_app/app/data/providers/article_gql_provider.dart';
+import 'package:mirrordaily_app/app/data/providers/header_data_provider.dart';
 import 'package:mirrordaily_app/app/data/providers/section_gql_provider.dart';
 import 'package:mirrordaily_app/app/data/providers/topic_gql_provider.dart';
 import 'package:mirrordaily_app/app/data/providers/weather_api_provider.dart';
@@ -22,8 +23,7 @@ class NewsTabController extends GetxController {
   final ArticleApiProvider articleApiProvider = Get.find();
   final TopicGqlProvider topicGqlProvider = Get.find();
   final SectionGqlProvider sectionGqlProvider = Get.find();
-
-  final RxList<Section> rxSectionList = RxList();
+  final HeaderDataProvider headerDataProvider = Get.find();
 
   final Rx<ChoiceType> rxChoiceSelectType = ChoiceType.editor.obs;
   final Rx<NewsType> rxNewsType = NewsType.realTime.obs;
@@ -36,21 +36,21 @@ class NewsTabController extends GetxController {
   final WeatherApiProvider weatherApiProvider = Get.find();
   final Rxn<City> rxWeatherSelectCity = Rxn();
   final Rxn<WeatherData> rxSelectWeatherData = Rxn();
+  final RxList<Section> rxSectionList = RxList();
   final RxList<TopicPreview> rxTopicTabBarList = RxList();
 
   WeatherResponse? weatherResponse;
 
   @override
   void onInit() async {
-    rxSectionList.value = await sectionGqlProvider.getSectionList();
-    addCustomSections();
     rxRenderArticleList.value = await articleApiProvider.getLatestArticles();
     weatherResponse = await weatherApiProvider.getWeatherData();
     rxWeatherSelectCity.value = City.taipei;
     rxSelectWeatherData.value =
         weatherResponse?.cityWeatherMap[rxWeatherSelectCity.value];
-    rxTopicTabBarList.value =
-        await topicGqlProvider.getIsFeatureTopicPreviewList();
+    rxSectionList.value = headerDataProvider.sectionList;
+    rxTopicTabBarList.value = headerDataProvider.topicList;
+    addCustomSections();
     configStreamLink();
     super.onInit();
   }
@@ -100,8 +100,6 @@ class NewsTabController extends GetxController {
   void initTopicBarList() {}
 
   void addCustomSections() async {
-
-
     final latestSection =
         Section(id: 'latest', name: '最新', slug: 'latest', color: '#1C7CED');
 
@@ -126,12 +124,6 @@ class NewsTabController extends GetxController {
       return;
     }
 
-    if (section.slug == 'latest') {
-      rxNewsPageType.value = NewsPageType.latest;
-      return;
-    }
-
-    // 預設跳轉 section 頁面
     Get.toNamed(Routes.sectionPage, arguments: section);
   }
 

@@ -92,7 +92,7 @@ class ArticlePage extends GetView<ArticleController> {
                             peopleList: controller.article?.vocals ?? [],
                           ),
                           PeopleWidget(
-                            title: '總主筆: ',
+                            title: '',
                             peopleList: controller.article?.engineers ?? [],
                           ),
                           const SizedBox(

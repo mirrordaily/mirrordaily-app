@@ -53,13 +53,11 @@ class WriterPage extends GetView<WriterPageController> {
                       children: [
                         Stack(
                           children: [
-                            SizedBox(
-                                width: 160,
-                                child: NetworkImageWidget(
-                                  url: articlePreview.heroImage?.resized?.w800,
-                                  height: 88,
-                                  backgroundColor: Colors.white,
-                                )),
+                            NetworkImageWidget(
+                              url: articlePreview.heroImage?.resized?.w800,
+                              height: 88,
+                              backgroundColor: Colors.white,
+                            ),
                             articlePreview.sections != null &&
                                     articlePreview.sections!.isNotEmpty
                                 ? Positioned(
@@ -94,7 +92,7 @@ class WriterPage extends GetView<WriterPageController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                articlePreview.formattedCreatedAt ??
+                                articlePreview.formattedPublishedDate ??
                                     StringDefault.nullString,
                                 style: Get.textTheme.titleSmall?.copyWith(
                                     color: articlePreview.sections != null &&

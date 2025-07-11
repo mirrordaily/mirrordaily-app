@@ -100,9 +100,6 @@ class ApiBaseHelper {
 
   /// 🎯 處理 HTTP Response
   dynamic _handleResponse(http.Response response) {
-    debugPrint("Response Code: ${response.statusCode}");
-    debugPrint("Response Body: ${response.body}");
-
     switch (response.statusCode) {
       case 200:
       case 201:

@@ -36,8 +36,8 @@ class SectionPage extends GetView<SectionPageController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx(() {
-              final categoryList = controller.rxnCategoryList.value;
-
+              final categoryList = controller.rxnCategoryList;
+              if (categoryList.isEmpty) return const SizedBox.shrink();
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -55,9 +55,10 @@ class SectionPage extends GetView<SectionPageController> {
                                   category.name ?? StringDefault.nullString,
                                   style: CustomTextStyle.subtitleSmall.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      color: selectCategory == category
-                                          ? controller.sectionColor
-                                          : CustomColorTheme.secondary70),
+                                      color:
+                                          selectCategory?.slug == category.slug
+                                              ? controller.sectionColor
+                                              : CustomColorTheme.secondary70),
                                 );
                               }),
                             ),
@@ -66,7 +67,6 @@ class SectionPage extends GetView<SectionPageController> {
                 ),
               );
             }),
-            // NewsMarqueeWidget(),
             const SizedBox(
               height: 28,
             ),

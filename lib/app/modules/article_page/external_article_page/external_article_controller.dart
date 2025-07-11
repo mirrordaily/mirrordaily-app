@@ -28,5 +28,6 @@ class ExternalArticleController extends GetxController {
         (await articleApiProvider.getLatestArticles()).take(6).toList();
     rxPopularArticleList.value =
         (await articleApiProvider.getPopularArticles()).take(6).toList();
+
   }
 }
